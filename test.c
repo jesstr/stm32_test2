@@ -4,8 +4,11 @@
 #include "main.h"
 #include "stm32f10x_usart.h"
 
+
 char str[256];
 
+
+/* Test framework for Heap_AllocBlock() routine */
 char *TestAlloc(size_t n) {
 	char *ptr;
 	UART_PrintStr("\r\n");
@@ -24,13 +27,14 @@ char *TestAlloc(size_t n) {
 }
 
 
+/* Test framework for AddItem() routine */
 item2_t *TestAdd(char *title) {
 	item2_t *item;
 
 	if ((item = AddItem(1,1,1,title)) != NULL ) {
 		sprintf(str, "\r\nTestAdd: %p\r\n", item);
 		UART_PrintStr(str);
-		sprintf(str, "n: %d, code: %d, price: %d, count: %d, title: %s\r\n",
+		sprintf(str, "n: %d, code: %d, price: %l, count: %d, title: %s\r\n",
 				(*item).n, (*item).code, (*item).price, (*item).count, item->title);
 		UART_PrintStr(str);
 
@@ -45,6 +49,7 @@ item2_t *TestAdd(char *title) {
 }
 
 
+/* Test framework for Heap_FreeBlock() routine */
 void TestFree(char *ptr) {
 	Heap_FreeBlock(ptr);
 	sprintf(str, "\r\nTestFree(%p)\r\nMemory blocks map:\r\n", ptr);
@@ -53,6 +58,7 @@ void TestFree(char *ptr) {
 }
 
 
+/* Test framework for DelItem() routine */
 void TestDel(item2_t *item) {
 	DelItem(item);
 	sprintf(str, "\r\nTestDel(%p)\r\nMemory blocks map:\r\n", item);
@@ -61,12 +67,14 @@ void TestDel(item2_t *item) {
 }
 
 
+/* Test framework for SearchItem() routine */
 void TestSearch(unsigned short n) {
 	sprintf(str, "\r\nSearchItem(%d): %p\r\n", n, (void *)SearchItem(n));
 	UART_PrintStr(str);
 }
 
 
+/* Print extended map of memory blocks and its free/allocated flags */
 void PrintBlocksMap(void) {
 	int i;
 	UART_PrintStr("\r\n[ ");
@@ -84,11 +92,10 @@ void PrintBlocksMap(void) {
 				UART_PrintStr("   ");
 			}
 	}
-
 }
 
 
-/*  */
+/* Print lite map of memory blocks and its free/allocated flags */
 void PrintBlocksMapLite(void) {
 	int i;
 	for (i = 0; i < HEAP_BLOCKS_COUNT; i++) {
@@ -98,7 +105,7 @@ void PrintBlocksMapLite(void) {
 }
 
 
-/* Print out items chain */
+/* Print items chain */
 void PrintItems(void) {
 	item2_t *item = (item2_t *)(heap_buf);
 
