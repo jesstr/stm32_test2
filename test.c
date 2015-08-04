@@ -34,8 +34,8 @@ item2_t *TestAdd(char *title) {
 	if ((item = AddItem(1,1,1,title)) != NULL ) {
 		sprintf(str, "\r\nTestAdd: %p\r\n", item);
 		UART_PrintStr(str);
-		sprintf(str, "n: %d, code: %d, price: %l, count: %d, title: %s\r\n",
-				(*item).n, (*item).code, (*item).price, (*item).count, item->title);
+		sprintf(str, "n: %d, code: %d, price: %d, count: %d, title: %s\r\n",
+				(*item).n, (unsigned int)(*item).code, (unsigned int)(*item).price, (unsigned int)(*item).count, (char *)(item->title));
 		UART_PrintStr(str);
 
 		UART_PrintStr("Memory blocks map:\r\n");
