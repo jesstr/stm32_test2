@@ -1,0 +1,7 @@
+stm32_test2/
+*.cogui
+*.comarker
+*~
+.*
+!.gitignore
+
